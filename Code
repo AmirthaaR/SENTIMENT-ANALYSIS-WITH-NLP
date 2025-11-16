@@ -1,0 +1,68 @@
+# ----------------------------------------------
+# TASK 2: SENTIMENT ANALYSIS WITH NLP
+# ----------------------------------------------
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+data = {
+    'review': [
+        "I loved this product, it is amazing!",
+        "This is the worst thing I bought.",
+        "Absolutely fantastic experience.",
+        "I hated it. Very bad quality.",
+        "The product is okay, not great.",
+        "Superb quality! Will buy again.",
+        "Terrible, I want a refund.",
+        "Satisfied with the purchase.",
+        "Not worth the money.",
+        "Excellent! Highly recommend.",
+        "Worst product ever.",
+        "I am extremely happy with this.",
+        "Bad experience, will not buy again.",
+        "Great service and great quality.",
+        "I love it so much!",
+        "Very disappointing product.",
+        "Amazing performance for the price.",
+        "Totally useless.",
+        "Good one, value for money.",
+        "Horrible, complete waste of money."
+    ],
+    'sentiment': [
+        1,0,1,0,1,1,0,1,0,1,
+        0,1,0,1,1,0,1,0,1,0
+    ]
+}
+
+df = pd.DataFrame(data)
+print("Dataset Preview:")
+print(df.head())
+
+X = df['review']
+y = df['sentiment']
+
+# stratify=y keeps balanced positive/negative ratio
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42, stratify=y
+)
+
+tfidf = TfidfVectorizer(stop_words='english')
+
+X_train_tfidf = tfidf.fit_transform(X_train)
+X_test_tfidf = tfidf.transform(X_test)
+
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train_tfidf, y_train)
+
+y_pred = model.predict(X_test_tfidf)
+
+print("\nAccuracy:", accuracy_score(y_test, y_pred))
+
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred, zero_division=1))
+
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
