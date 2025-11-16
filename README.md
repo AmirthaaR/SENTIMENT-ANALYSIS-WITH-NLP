@@ -27,3 +27,4 @@ Evaluation is carried out using accuracy, classification report, and confusion m
 Overall, Task 2 successfully implements a complete NLP pipeline—from text preprocessing to vectorization, model training, and performance evaluation. It demonstrates how machine learning can be applied to linguistic data to extract meaningful insights about sentiment.
 
 # OUTPUT
+<img width="440" height="396" alt="Image" src="https://github.com/user-attachments/assets/13f45d70-a7c2-483c-bc16-ec0fc164faa5" />
